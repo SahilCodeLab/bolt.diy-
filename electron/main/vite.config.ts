@@ -11,15 +11,9 @@ export default defineConfig({
       external: [
         'vite',
         'electron',
-        ...[
-          'electron-log',
-
-          // electron-log uses fs internally
-          'fs',
-          'util',
-        ],
-
-        // Add all Node.js built-in modules as external
+        'electron-log',
+        'fs',
+        'util',
         'node:fs',
         'node:path',
         'node:url',
@@ -28,8 +22,6 @@ export default defineConfig({
         'node:events',
         'electron-store',
         '@remix-run/node',
-
-        // "mime", // NOTE: don't enable. not working if it's external.
         'electron-updater',
       ],
       output: {
@@ -40,5 +32,12 @@ export default defineConfig({
     },
     minify: false,
     emptyOutDir: false,
+  },
+
+  // ✅ Add this server section for Render
+  server: {
+    host: true,
+    port: process.env.PORT || 5173,
+    allowedHosts: ['bolt-diy-grdm.onrender.com'], // tumhara live URL
   },
 });
