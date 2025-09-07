@@ -2,9 +2,14 @@ import { resolve } from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+  server: {
+    host: true, // External access allowed
+    port: process.env.PORT || 5173, // Render ke liye dynamic port
+    allowedHosts: ['bolt-diy-grdm.onrender.com'], // Render hostname allow
+  },
   build: {
     lib: {
-      entry: resolve('electron/main/index.ts'),
+      entry: resolve('electron/main/index.ts'), // Electron main process
       formats: ['es'],
     },
     rollupOptions: {
@@ -32,12 +37,5 @@ export default defineConfig({
     },
     minify: false,
     emptyOutDir: false,
-  },
-
-  // ✅ Add this server section for Render
-  server: {
-    host: true,
-    port: process.env.PORT || 5173,
-    allowedHosts: ['bolt-diy-grdm.onrender.com'], // tumhara live URL
   },
 });
