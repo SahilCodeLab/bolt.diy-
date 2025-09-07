@@ -1,15 +1,14 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  server: {
-    host: true, // External access allowed
-    port: process.env.PORT || 5173, // Render ke liye dynamic port
-    allowedHosts: ['bolt-diy-grdm.onrender.com'], // Render hostname allow
-  },
+  plugins: [react()],
+
+  // Electron build config
   build: {
     lib: {
-      entry: resolve('electron/main/index.ts'), // Electron main process
+      entry: resolve('electron/main/index.ts'),
       formats: ['es'],
     },
     rollupOptions: {
@@ -37,5 +36,19 @@ export default defineConfig({
     },
     minify: false,
     emptyOutDir: false,
+  },
+
+  // Dev server + Render config
+  server: {
+    host: true, // allows external access
+    port: process.env.PORT || 5173, // Render ka dynamic port
+    allowedHosts: ['bolt-diy-grdm.onrender.com', '.onrender.com'], // allow your Render URL
+  },
+
+  // Preview (for `vite preview`) same as server
+  preview: {
+    host: true,
+    port: process.env.PORT || 5173,
+    allowedHosts: ['bolt-diy-grdm.onrender.com', '.onrender.com'],
   },
 });
